@@ -1,0 +1,25 @@
+# Initiates the Azure login process
+az login
+
+# Creates an Azure resource group named demo-RG in the eastus location
+az group create --name demo-RG --location eastus
+
+
+# Creates an Azure Kubernetes Service (AKS) cluster named demo-aks-cluster within the demo-RG resource group
+az aks create -g demo-RG -n demo-aks-cluster --enable-managed-identity --node-count 1 --enable-addons monitoring --enable-msi-auth-for-monitoring --generate-ssh-keys
+
+
+# Retrieves details about the demo-aks-cluster AKS cluster after creation
+az aks show --name demo-aks-cluster --resource-group demo-RG
+
+
+# Installs the Kubernetes command-line tool (kubectl)
+az aks install-cli
+
+
+# Retrieves and configures kubectl credentials for the demo-aks-cluster AKS cluster within the demo-RG resource group
+az aks get-credentials --resource-group demo-RG --name demo-aks-cluster
+
+
+# Delete the demo-aks-cluster AKS cluster by deleting the demo-RG resource group
+az group delete --name demo-RG --yes --no-wait
